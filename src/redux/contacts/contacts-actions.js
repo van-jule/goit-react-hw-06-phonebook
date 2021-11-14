@@ -1,4 +1,3 @@
-import types from "./contacts-types";
 import shortid from "shortid";
 import { createAction } from "@reduxjs/toolkit";
 
