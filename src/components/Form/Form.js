@@ -1,7 +1,8 @@
 import React, { useState, memo } from "react";
 import shortid from "shortid";
 import PropTypes from "prop-types";
-
+import { connect } from "react-redux";
+import contactsActions from "../../redux/contacts/contacts-actions";
 import styles from "./Form.module.css";
 
 const Form = ({ onSubmit }) => {
@@ -72,4 +73,8 @@ Form.propTypes = {
   number: PropTypes.number,
 };
 
-export default memo(Form);
+const mapDispatchToProps = (dispatch) => ({
+  onSubmit: (info) => dispatch(contactsActions.addContact(info)),
+});
+
+export default connect(null, mapDispatchToProps)(memo(Form));
