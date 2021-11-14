@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import contactsActions from "../../redux/contacts/contacts-actions";
 import styles from "./Form.module.css";
 
-const Form = ({ onSubmit }) => {
+const Form = ({ onSubmit, contacts }) => {
   const [state, setState] = useState({ name: "", number: "" });
 
   const nameInputId = shortid.generate();
@@ -22,6 +22,12 @@ const Form = ({ onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (contacts.find(({ name }) => name === state.name)) {
+      alert(`${state.name} is already in contacts`);
+      return;
+    }
+
     onSubmit(state);
     reset();
   };
@@ -73,8 +79,12 @@ Form.propTypes = {
   number: PropTypes.number,
 };
 
+const mapStateToProps = (state) => ({
+  contacts: state.contacts.items,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   onSubmit: (info) => dispatch(contactsActions.addContact(info)),
 });
 
-export default connect(null, mapDispatchToProps)(memo(Form));
+export default connect(mapStateToProps, mapDispatchToProps)(memo(Form));

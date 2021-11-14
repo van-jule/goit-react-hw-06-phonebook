@@ -3,8 +3,14 @@ import styles from "./ContactsList.module.css";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import contactsActions from "../../redux/contacts/contacts-actions";
-const ContactsList = ({ contacts, onDeleteContact }) =>
-  contacts.length === 0 ? (
+import { useEffect } from "react";
+
+const ContactsList = ({ contacts, onDeleteContact }) => {
+  useEffect(() => {
+    localStorage.setItem("items", JSON.stringify(contacts));
+  }, [contacts]);
+
+  return contacts.length === 0 ? (
     <div> No contacts </div>
   ) : (
     <ul className={styles.list}>
@@ -22,7 +28,7 @@ const ContactsList = ({ contacts, onDeleteContact }) =>
       ))}
     </ul>
   );
-
+};
 ContactsList.defaultProps = {
   contacts: [],
 };
