@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { createAction, createReducer } from "@reduxjs/toolkit";
+import { createReducer } from "@reduxjs/toolkit";
 import actions from "./contacts-actions";
 
 const initialStateItems = JSON.parse(localStorage.getItem("items")) || [

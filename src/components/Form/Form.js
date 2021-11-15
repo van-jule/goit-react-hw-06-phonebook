@@ -1,12 +1,16 @@
 import React, { useState, memo } from "react";
 import shortid from "shortid";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import contactsActions from "../../redux/contacts/contacts-actions";
+import { getContacts } from "../../redux/contacts/contacts-selectors";
 import styles from "./Form.module.css";
 
-const Form = ({ onSubmit, contacts }) => {
+const Form = () => {
   const [state, setState] = useState({ name: "", number: "" });
+
+  const contacts = useSelector(getContacts);
+  const dispatch = useDispatch();
 
   const nameInputId = shortid.generate();
   const telInputId = shortid.generate();
@@ -28,7 +32,7 @@ const Form = ({ onSubmit, contacts }) => {
       return;
     }
 
-    onSubmit(state);
+    dispatch(contactsActions.addContact(state));
     reset();
   };
 
@@ -79,12 +83,12 @@ Form.propTypes = {
   number: PropTypes.number,
 };
 
-const mapStateToProps = (state) => ({
-  contacts: state.contacts.items,
-});
+// const mapStateToProps = (state) => ({
+//   contacts: state.contacts.items,
+// });
 
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit: (info) => dispatch(contactsActions.addContact(info)),
-});
+// const mapDispatchToProps = (dispatch) => ({
+//   onSubmit: (info) => dispatch(contactsActions.addContact(info)),
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(memo(Form));
+export default memo(Form);
